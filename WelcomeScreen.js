@@ -1,22 +1,35 @@
 // WelcomeScreen.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet,Image } from 'react-native';
 import { useAuth } from './AuthContext';
 
 export default function WelcomeScreen() {
   const { logout } = useAuth();
+  const [isVisible, setIsVisible] = useState(true);
+
   const handleLogout = () => {
     // Call the logout function from AuthContext or perform any necessary cleanup
     logout();
   };
+  useEffect(() => {
+    // Set a timeout to hide the text after 5 seconds
+    const timeoutId = setTimeout(() => {
+      setIsVisible(false);
+    }, 5000);
+
+    // Clear the timeout when the component unmounts to avoid memory leaks
+    return () => clearTimeout(timeoutId);
+  }, []); // Empty dependency array ensures the effect runs only once
+
 
   return (
     <View style={styles.container}>
-      <Image source={require('./assets/logo.png')} style={styles.logo} />
-      <Text style={styles.welcomeText}>Good Morning Lucky !! Welcome Back.</Text>
-      {/* <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Logout</Text>
-      </TouchableOpacity> */}
+      {isVisible && (
+        <>
+          <Image source={require('./assets/cong.gif')} style={styles.logo} />
+          <Text style={styles.welcomeText}>Good Morning Lucky !! Welcome Back.</Text>
+        </>
+      )}
     </View>
   );
 }
@@ -50,8 +63,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   logo: {
-    width: 150,
-    height: 100,
+    width:'100%',
+    height: 150,
     resizeMode: 'contain',
     marginBottom: 20,
   },

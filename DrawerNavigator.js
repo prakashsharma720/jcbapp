@@ -6,7 +6,7 @@ import { MaterialIcons ,Ionicons,MaterialCommunityIcons,FontAwesome5,FontAwesome
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './WelcomeScreen';
 import UserManagementScreen from './UserManagementScreen';
-import DealerManagementScreen from './WelcomeScreen';
+import DealerMaster from './DealerMaster';
 import ResetPassword from './ResetPassword';
 import ForgotPassword from './ForgotPassword';
 import Login from './Login';
@@ -28,7 +28,7 @@ const CustomDrawerContent = (props) => {
   const handleLogout = () => {
     // Call the logout function from the useAuth hook
     logout();
-    navigation.navigate('login')
+    navigation.navigate('Login')
   };
   return (
   
@@ -101,7 +101,7 @@ const CustomDrawerContent = (props) => {
       <Text style={styles.subtitle}>Dealer Management</Text>
       <DrawerItem
         label="Dealer Creation"
-        onPress={() => navigation.navigate('ItemMaster')}
+        onPress={() => navigation.navigate('DealerMaster')}
         icon={({ focused, color, size }) => (
           <FontAwesome5 name="user-astronaut" size={24} color="black" />
         )}
@@ -195,6 +195,10 @@ const DrawerNavigator = () => {
         drawerContent={(props) => <CustomDrawerContent {...props} />}
       >
         <Drawer.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+        <Stack.Screen name="ResetPassword" component={ResetPassword} />
+        <Stack.Screen name="DealerMaster" component={DealerMaster} />
         {/* Add other screens as needed */}
       </Drawer.Navigator>
     );
@@ -204,6 +208,7 @@ const DrawerNavigator = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
+        <Stack.Screen name="DealerMaster" component={DealerMaster} />
       </Stack.Navigator>
     );
   }
