@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { StatusBar, Dimensions, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-// import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import ProgressBar from 'react-native-progress/Bar';
-
+import { StatusBar } from 'expo-status-bar';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons'; // Import Ionicons for the eye icon
+import { Alert } from 'react-native'; // Import Alert for displaying information
 
 
 const DealerMaster = () => {
-  const [step, setStep] = useState(1);
-  const [index, setIndex] = useState(0);
+
   const [showPassword, setShowPassword] = useState(false);
+
   const [name, setName] = useState('');
   const [dcode, setDcode] = useState('');
   const [address1, setAddress1] = useState('');
@@ -26,96 +26,135 @@ const DealerMaster = () => {
   const [longitude, setLongitude] = useState('');
   const [nameError, setNameError] = useState('');
 
-  const totalSteps = 3;
 
-  const handleNext = () => {
-    // Validate fields based on the current step
-    if (step === 1) {
-      if (!name.trim()) {
-        // Validation failed
+  const handleLogin = () => {
+    setNameError('');
+    if (!name.trim()) {
+        setNameError('Dealership Name is required.');
+        return;
+      }
+  
+   // Validation for Dealer Name
+    if (!name.trim()) {
         alert('Dealership Name is required.');
         return;
       }
-      // Validation passed, move to the next step
-      setStep(step + 1);
-    } else if (step === 2) {
-      // Add validation logic for fields in the second step
-      // For example, check if email is not empty
+  
+      // Validation for Dealer Code
+      if (!dcode.trim()) {
+        alert('Dealer Code is required.');
+        return;
+      }
+  
+      // Validation for Address 1
+      if (!address1.trim()) {
+        alert('Address 1 is required.');
+        return;
+      }
+  
+      // Validation for Address 2
+      if (!address2.trim()) {
+        alert('Address 2 is required.');
+        return;
+      }
+      if (!address2.trim()) {
+        alert('Address 2 is required.');
+        return;
+      }
+  
+      if (!country.trim()) {
+        alert('Country is required.');
+        return;
+      }
+  
+      if (!state.trim()) {
+        alert('State is required.');
+        return;
+      }
+  
+      if (!city.trim()) {
+        alert('City is required.');
+        return;
+      }
+  
+      if (!pinCode.trim()) {
+        alert('Pin Code is required.');
+        return;
+      }
+  
       if (!email.trim()) {
-        // Validation failed
         alert('Email is required.');
         return;
       }
-      // Validation passed, move to the next step
-      setStep(step + 1);
+  
+      if (!contactPerson.trim()) {
+        alert('Contact Person is required.');
+        return;
+      }
+  
+      if (!contactNumber.trim()) {
+        alert('Contact Number is required.');
+        return;
+      }
+  
+      if (!gstin.trim()) {
+        alert('GSTin is required.');
+        return;
+      }
+  
+      if (!areaOffice.trim()) {
+        alert('Area Office is required.');
+        return;
+      }
+  
+      if (!latitude.trim()) {
+        alert('Latitude is required.');
+        return;
+      }
+  
+      if (!longitude.trim()) {
+        alert('Longitude is required.');
+        return;
+      }
+      // If all validations pass, continue with your logic
+      alert('Validation successful!');
+  };
+
+
+
+  const handleEmailValidation = () => {
+    let message = '';
+  
+    if (!email) {
+      message = 'Email is required';
+    } else if (!isValidEmail(email)) {
+      message = 'Please enter a valid email address';
+    } else {
+      message = 'Email is valid!';
     }
-    // You can add more steps with additional else if blocks
+  
+    Alert.alert('Email Validation', message);
   };
+  
 
-  const handleBack = () => {
-    // Move to the previous step
-    setStep(step - 1);
-  };
-
-  const handleFinalSubmit = () => {
-    // Handle final submit logic here
-    alert('Final Submit!');
-  };
-
-  const renderProgressBar = () => {
-    return (
-      <ProgressBar
-        progress={step / totalSteps}
-        width={null}
-        height={10}
-        borderRadius={2}
-        color="#fcb026"
-        animated
-        marginBottom={20}     />
-    );
-  };
-
-  // const renderStepContent = () => {
-  //   return (
-  //     <ScrollView contentContainerStyle={styles.mainContainer}>
-  //       <View>
-  //         {renderProgressBar()}
-      
-  //         {/* Rest of your code for each step */}
-  //       </View>
-  //     </ScrollView>
-  //   );
-  // };
-  const renderStepContent = () => {
-    switch (step) {
-      case 1:
-        return (
-          <ScrollView contentContainerStyle={styles.mainContainer}>
+  return (
+    <ScrollView contentContainerStyle={styles.mainContainer}>
             <View>
-            <Text style={styles.stepIndicator}>Step 1 of 3</Text>
-
-              {renderProgressBar()}
-              <Text style={styles.label}>Dealership Name</Text>
-              <TextInput
+            <Text style={styles.label}>Dealership Name</Text>
+            <TextInput
                 style={styles.input}
                 placeholder="Enter Dealership Name"
                 value={name}
                 onChangeText={(text) => setName(text)}
-              />
-               <Text style={styles.label}>Dealer Code</Text>
+            />
+
+            <Text style={styles.label}>Dealer Code</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Enter Dealer Code"
                 value={dcode}
                 onChangeText={(text) => setDcode(text)}
             />
-             <Text style={styles.label}>Email</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter Email"
-                value={email}
-                onChangeText={(text) => setEmail(text)}
-              />
             <Text style={styles.label}>Address 1</Text>
             <TextInput
                 style={styles.input}
@@ -130,22 +169,6 @@ const DealerMaster = () => {
                 value={address2}
                 onChangeText={(text) => setAddress2(text)}
             />
-           
-              {/* ... (other fields for the first step) */}
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.button} onPress={handleNext}>
-                <Text style={styles.buttonText}>Next</Text>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        );
-      case 2:
-        return (
-          <ScrollView contentContainerStyle={styles.mainContainer}>
-            <View>
-            <Text style={styles.stepIndicator}>Step 2 of 3</Text>
-            {renderProgressBar()}
             <Text style={styles.label}>Country</Text>
             <TextInput
                 style={styles.input}
@@ -153,7 +176,7 @@ const DealerMaster = () => {
                 value={country}
                 onChangeText={(text) => setCountry(text)}
             />
-              <Text style={styles.label}>State</Text>
+            <Text style={styles.label}>State</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Enter State"
@@ -188,42 +211,21 @@ const DealerMaster = () => {
                 value={contactPerson}
                 onChangeText={(text) => setContactPerson(text)}
             />
-           
-           
-              {/* ... (other fields for the second step) */}
-            </View>
-            <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.cancelButton} onPress={handleBack}>
-                <Text style={styles.buttonText}>Back</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button1} onPress={handleNext}>
-                <Text style={styles.buttonText}>Next</Text>
-              </TouchableOpacity>
-            </View>
-           
-          </ScrollView>
-        );
-        case 3:
-          return (
-          <ScrollView contentContainerStyle={styles.mainContainer}>
-              <View>
-              <Text style={styles.stepIndicator}>Step 3 of 3</Text>
-              {renderProgressBar()}
-              <Text style={styles.label}>Contact Number</Text>
-              <TextInput
-                  style={styles.input}
-                  placeholder="Enter Contact Number"
-                  value={contactNumber}
-                  onChangeText={(text) => setContactNumber(text)}
-              />
-              <Text style={styles.label}>GSTin</Text>
+            <Text style={styles.label}>Contact Number</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Enter Contact Number"
+                value={contactNumber}
+                onChangeText={(text) => setContactNumber(text)}
+            />
+            <Text style={styles.label}>GSTin</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Enter GSTin"
                 value={gstin}
                 onChangeText={(text) => setGstin(text)}
             />
-             <Text style={styles.label}>Area Office</Text>
+            <Text style={styles.label}>Area Office</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Enter Area Office"
@@ -244,28 +246,19 @@ const DealerMaster = () => {
                 value={longitude}
                 onChangeText={(text) => setLongitude(text)}
             />
-              </View>
-              <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.cancelButton} onPress={handleBack}>
-                <Text style={styles.buttonText}>Back</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button1} onPress={handleFinalSubmit}>
-                <Text style={styles.buttonText}>Final Submit</Text>
-              </TouchableOpacity>
             </View>
-              </ScrollView>
-          );
-      // Add more cases for additional steps
-      default:
-        return null;
-    }
-  };
 
-  return (
-    <View style={{ flex: 1, flexDirection: 'column' }}>
-      {renderStepContent()}
-      <StatusBar style="auto" />
-    </View>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Save</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.cancelButton} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Cancel</Text>
+                </TouchableOpacity>
+            </View>
+        <StatusBar style="auto" />
+  </ScrollView>
   );
 }
 
@@ -275,16 +268,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
     padding: '5%',
-  },
-  stepIndicator: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  labelStyle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-
   },
   logoContainer: {
     alignItems: 'center',
@@ -305,9 +288,7 @@ const styles = StyleSheet.create({
     color:'#7f7e85'
   },
   label:{
-    color:'#7f7e85',
-    fontSize: 15,
-    fontWeight: 'bold',
+    color:'#7f7e85'
   },
   header: {
     fontSize: 24,
@@ -340,15 +321,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button: {
-    width:'100%',
-    height: 60,
-    backgroundColor: '#fcb026',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  button1: {
     width:'48%',
     height: 60,
     backgroundColor: '#fcb026',
@@ -360,7 +332,7 @@ const styles = StyleSheet.create({
   cancelButton: {
     width:'48%',
     height: 60,
-    backgroundColor: 'grey',
+    backgroundColor: 'red',
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
