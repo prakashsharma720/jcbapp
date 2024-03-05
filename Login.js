@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons for the eye icon
@@ -14,13 +14,18 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const { login } = useAuth();
 
+  useEffect(()=>{
+  setEmail('')
+  setPassword('')
+  },[])
+  
   const handleLogin = () => {
       
     // For simplicity, let's consider the user is logged in if both email and password are provided
     if (email.trim() !== '' && password.trim() !== '') {
       setIsLoggedIn(true);
       login();
-      navigation.navigate('HomeScreen');
+      navigation.push('Home');
     } else {
       alert('Please enter a valid email and password.');
     }
