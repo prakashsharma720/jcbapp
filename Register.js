@@ -105,7 +105,7 @@ const Register = () => {
            <TextInput
               style={styles.input}
               placeholder="Password"
-              secureTextEntry
+              secureTextEntry={!showPassword}
               value={password}
               onChangeText={handlePasswordChange}
             />
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     position: 'absolute',
-    top: 380, // Adjust the top position as needed
+    top: 410, // Adjust the top position as needed
     right: 15, // Adjust the right position as needed
   },
   helpIcon: {
